@@ -15,6 +15,7 @@ Its main fonctionnality is to handle a queue System for Hideonbushbro viewvers.
 
 - Typescript
 - NextJS
+- Tailwind CSS
 - Mysql
 
 ## Contributions
