@@ -37,6 +37,9 @@ export default function Chat() {
         type="text"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
+        style={{
+          color: "#4a4a4a"
+        }}
         className="w-full p-2 border rounded mt-2"
         placeholder="Tape ton message..."
       />
