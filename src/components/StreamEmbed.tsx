@@ -18,9 +18,9 @@ const StreamEmbed: React.FC<StreamEmbedProps> = ({ url }) => {
   }
 
   const embedUrl = isTwitch
-    ? `https://player.twitch.tv/?channel=${url.split("twitch.tv/")[1]}&parent=localhost`
+    ? `https://player.twitch.tv/?channel=${url.split("twitch.tv/")[1]}&parent=localhost?autoplay=1&mute=1`
     : isYouTube
-    ? `https://www.youtube.com/embed/${extractYouTubeId(url)}`
+    ? `https://www.youtube.com/embed/${extractYouTubeId(url)}?autoplay=1&mute=1`
     : "";
 
   return (
