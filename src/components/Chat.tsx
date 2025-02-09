@@ -11,7 +11,6 @@ export default function Chat() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    // Assign username on connection
     socket.on("assignUsername", (assignedUsername: string) => {
       setUsername(assignedUsername);
     });
@@ -34,45 +33,41 @@ export default function Chat() {
   };
 
   return (
-    <div className="p-4 max-w-md mx-auto">
-      <div className="border p-2 h-[42rem] w-[28rem] overflow-y-auto overflow-x-hidden">
+    <div
+      id="chat-component"
+      className="h-full flex flex-col rounded-lg border border-gray-700 overflow-hidden"
+    >
+      <div
+        id="chat-messages"
+        className="flex-1 p-2 overflow-y-auto bg-gray-800"
+      >
         {messages.map((msg, i) => (
           <div key={i} className="p-1 break-words">
             <strong>{msg.username}</strong>:<br />
-            <p className="break-words">{msg.text}</p>
+            <p>{msg.text}</p>
           </div>
         ))}
       </div>
-      <div className="flex w-[28rem] mt-2">
+      <div id="chat-input" className="flex">
         <input
           type="text"
           value={message}
-          style={{ color: "#4a4a4a" }}
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               sendMessage();
             }
           }}
-          className="flex-1 p-2 border rounded-l"
+          className="flex-1 p-2 border-t border-gray-600 bg-gray-900 text-white"
           placeholder="Type your message here..."
         />
         <button
           onClick={sendMessage}
-          className="bg-blue-500 text-white p-2 rounded-r"
+          className="bg-blue-500 text-white px-4 py-2"
         >
           Send
         </button>
       </div>
-      <button
-        onClick={() => {
-          // Nothing to do here for now
-        }}
-        className="w-[28rem] bg-green-500 text-white p-2 mt-2 rounded"
-      >
-        Join Queue
-      </button>
     </div>
   );
-  
-}  
+}
