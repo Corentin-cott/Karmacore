@@ -2,6 +2,7 @@
 import Head from "next/head";
 import ChatComponent from "@/components/Chat";
 import StreamEmbed from "@/components/StreamEmbed";
+import Queue from "@/components/Queue";
 
 export default function Home() {
   return (
@@ -33,6 +34,11 @@ export default function Home() {
           {/* Chat Section */}
           <div id="chat-column" className="col-span-1 aspect-w-16 aspect-h-9">
             <ChatComponent />
+          </div>
+
+          {/* Queue Section */}
+          <div id="queue-column" className="col-span-3">
+            <Queue />
           </div>
         </main>
 

@@ -8,27 +8,29 @@ var app = express();
 app.use(cors());
 var server = (0, http_1.createServer)(app);
 var io = new socket_io_1.Server(server, {
-    cors: {
-        origin: "*", // Autorise every origin to connect (TODO: restrict later)
-    },
+    cors: { origin: "*" },
 });
+var queue = new Map();
 io.on("connection", function (socket) {
-    var username = generateRandomUsername(); // Generate a username
+    var username = generateRandomUsername();
     console.log("\u2705 Client connected: ".concat(socket.id, ", Username: ").concat(username));
-    // Send the username to the client
     socket.emit("assignUsername", username);
-    // Handle incoming messages
-    socket.on("message", function (msg) {
-        io.emit("message", { username: username, text: msg });
+    socket.on("joinQueue", function (nickname) {
+        queue.set(socket.id, { id: socket.id, randomName: username, nickname: nickname });
+        io.emit("queueUpdated", Array.from(queue.values()));
+    });
+    socket.on("removeFromQueue", function () {
+        queue.delete(socket.id);
+        io.emit("queueUpdated", Array.from(queue.values()));
     });
     socket.on("disconnect", function () {
+        queue.delete(socket.id);
+        io.emit("queueUpdated", Array.from(queue.values()));
         console.log("\u274C Client disconnected: ".concat(socket.id));
     });
 });
-server.listen(3001, function () { return console.log("🚀 Serveur WebSocket sur http://localhost:3001"); });
+server.listen(3001, function () { return console.log("🚀 WebSocket server running on http://localhost:3001"); });
 function generateRandomUsername() {
-    var nouns = ["Michael", "Trevor", "Franklin", "Lamar", "Jimmy", "Amanda", "Tracey", "Ron", "Wade", "Lester", "Dave", "Steve", "Devin", "Solomon", "Molly", "Tanisha", "Lazlow", "Simeon", "Stretch", "Floyd", "Chop", "Fabien", "Dr. Friedlander", "Mrs. Philips"];
-    var randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
-    var randomNumber = Math.floor(1000 + Math.random() * 9000); // 4-digit number, making sure the username is unique
-    return "".concat(randomNoun).concat(randomNumber);
+    var names = ["Michael", "Trevor", "Franklin", "Lamar"];
+    return names[Math.floor(Math.random() * names.length)] + Math.floor(1000 + Math.random() * 9000);
 }
