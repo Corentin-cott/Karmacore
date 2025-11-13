@@ -1,5 +1,8 @@
 # Karmacore
 
+> [!IMPORTANT]  
+> With no news of Hideonbushbro, this project has come to a stop.
+
 ## Summary
 
 - [Introduction](#introduction)
